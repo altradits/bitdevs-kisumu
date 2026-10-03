@@ -4,86 +4,56 @@ export interface Developer {
   role: string;
   bio: string;
   location: string;
+  avatar?: string;
   skills: string[];
   github: string;
   twitter?: string;
   nostr?: string;
   lightningAddress: string;
+  lnurl?: string;
   availableForHire: boolean;
   featuredProject?: {
     name: string;
     url: string;
     description: string;
   };
+  openSourceHighlights?: {
+    name: string;
+    url: string;
+    description: string;
+  }[];
 }
 
 export const developers: Developer[] = [
   {
-    id: "omondi-b",
-    name: "Omondi Brian",
-    role: "Full-Stack & Lightning Engineer",
-    bio: "Building L402 payment gateways and Lightning-enabled web services in Western Kenya. Passionate about financial sovereignty and local P2P rails.",
+    id: "stanley-thuita",
+    name: "Stanley Thuita",
+    role: "Co-Founder & Bitcoin Infrastructure Contributor",
+    avatar: "https://avatars.githubusercontent.com/u/227045218?v=4",
+    bio: "Building Bitcoin & Lightning infrastructure for Africa. Active open-source protocol contributor, author of the 158-lesson Go-to-Bitcoin engineering curriculum, and bridging Western Kenya developers to global sound money rails.",
     location: "Kisumu, Kenya",
-    skills: ["TypeScript", "Node.js", "LDK", "LND", "Next.js", "PostgreSQL"],
-    github: "https://github.com",
-    twitter: "https://x.com",
-    nostr: "npub1kisumu...",
-    lightningAddress: "omondi@getalby.com",
+    skills: ["Go", "Bitcoin Protocol", "Lightning Network", "Infrastructure", "M-Pesa API", "Astro"],
+    github: "https://github.com/altradits",
+    twitter: "https://x.com/BitDevsKsm",
+    lightningAddress: "potablesignal21@walletofsatoshi.com",
+    lnurl: "lnurl1dp68gurn8ghj7ampd3kx2ar0veekzar0wd5xjtnrdakj7tnhv4kxctttdehhwm30d3h82unvwqhhqmm5v93xcetnd9nkuctvxgcsm55zyn",
     availableForHire: true,
     featuredProject: {
-      name: "LakePay L402",
-      url: "https://github.com",
-      description: "Paywall proxy enabling pay-per-request APIs with Lightning micro-transactions."
-    }
-  },
-  {
-    id: "atieno-faith",
-    name: "Faith Atieno",
-    role: "Bitcoin Protocol & Smart Contracts (Clarity/Rust)",
-    bio: "Focusing on sBTC integration, Clarity smart contracts on Stacks, and non-custodial Bitcoin escrow mechanisms for East African commerce.",
-    location: "Kisumu, Kenya",
-    skills: ["Clarity", "Rust", "Stacks.js", "Bitcoin Script", "Tailwind CSS"],
-    github: "https://github.com",
-    twitter: "https://x.com",
-    nostr: "npub1atieno...",
-    lightningAddress: "faithatieno@blink.sv",
-    availableForHire: true,
-    featuredProject: {
-      name: "sBTC Escrow Hub",
-      url: "https://github.com",
-      description: "Clarity smart contract for trustless milestone escrow backed 1:1 by Bitcoin."
-    }
-  },
-  {
-    id: "kevin-otieno",
-    name: "Kevin Otieno",
-    role: "Hardware & Offline Systems Researcher",
-    bio: "Experimenting with Blockstream Satellite SDR receivers, mesh radios (Meshtastic), and Raspberry Pi Bitcoin nodes for low-bandwidth communities.",
-    location: "Maseno / Kisumu",
-    skills: ["Python", "Embedded C", "Raspberry Pi", "Blockstream Satellite", "Linux"],
-    github: "https://github.com",
-    lightningAddress: "kevinotieno@walletofsatoshi.com",
-    availableForHire: true,
-    featuredProject: {
-      name: "Kisumu SatReceiver",
-      url: "https://github.com",
-      description: "Step-by-step documentation and 3D-printed bracket for RTL-SDR satellite dish setup."
-    }
-  },
-  {
-    id: "victor-odhiambo",
-    name: "Victor Odhiambo",
-    role: "Mobile & USSD Bitcoin Engineer",
-    bio: "Bridging Bitcoin Lightning Network to feature phones via USSD and SMS APIs. Working on zero-data offline transaction verification.",
-    location: "Kisumu, Kenya",
-    skills: ["Kotlin", "Flutter", "Africa's Talking API", "Lightning", "Go"],
-    github: "https://github.com",
-    lightningAddress: "victor@getalby.com",
-    availableForHire: false,
-    featuredProject: {
-      name: "OfflineSats USSD",
-      url: "https://github.com",
-      description: "Interactive USSD menu prototype querying Lightning invoices via Machankura & AfricasTalking."
-    }
+      name: "altradits / challenges",
+      url: "https://github.com/altradits/challenges",
+      description: "Progressive Go curriculum — 158 structured lessons from package main to Bitcoin open source contributor."
+    },
+    openSourceHighlights: [
+      {
+        name: "africa-route-lang-ai",
+        url: "https://github.com/altradits/africa-route-lang-ai",
+        description: "Bridging African languages & Bitcoin education with context-aware AI & Lightning rewards."
+      },
+      {
+        name: "bursaryhub",
+        url: "https://github.com/altradits/bursaryhub",
+        description: "Fraud-proof bursary and scholarship platform for Kenya connecting donors and students in Go."
+      }
+    ]
   }
 ];

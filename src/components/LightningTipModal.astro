@@ -27,16 +27,16 @@
         ⚡
       </div>
       <div>
-        <h3 class="text-lg font-bold text-white leading-tight">Send Satoshis</h3>
-        <p id="modal-recipient-name" class="text-xs font-mono text-slate-400 mt-0.5">
-          BitDevs Kisumu
+        <h3 class="text-lg font-bold text-white leading-tight">Send Satoshis Directly</h3>
+        <p id="modal-recipient-name" class="text-xs font-mono text-[#F7931A] mt-0.5">
+          Stanley Thuita (Co-Founder)
         </p>
       </div>
     </div>
 
     <!-- QR Code Container -->
-    <div class="my-6 flex flex-col items-center justify-center">
-      <div class="p-3 bg-white rounded-xl shadow-inner flex items-center justify-center">
+    <div class="my-5 flex flex-col items-center justify-center">
+      <div class="p-3 bg-white rounded-2xl shadow-inner flex items-center justify-center border-4 border-amber-500/20">
         <img 
           id="modal-qr-img" 
           src="" 
@@ -44,44 +44,63 @@
           class="w-48 h-48 block"
         />
       </div>
-      <span class="text-[11px] font-mono text-slate-400 mt-2">
-        Scan with Blink, Strike, Phoenix, Alby, or CashApp
+      <span class="text-[11px] font-mono text-slate-400 mt-2.5">
+        Scan with Blink, Strike, Phoenix, CashApp, or WoS
       </span>
     </div>
 
     <!-- Lightning Address Display & Copy -->
     <div class="space-y-3">
-      <div class="text-xs font-mono text-slate-400 uppercase tracking-wider">
-        Lightning Address (LNURL-Pay)
+      <div>
+        <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-1">
+          Lightning Address (LNURL)
+        </div>
+        <div class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-900 border border-slate-800 font-mono text-xs">
+          <span id="modal-lightning-address" class="text-[#F7931A] truncate flex-1 font-semibold">
+            potablesignal21@walletofsatoshi.com
+          </span>
+          <button 
+            id="copy-address-btn"
+            class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white text-xs font-mono transition-colors flex items-center gap-1"
+          >
+            <span id="copy-btn-text">Copy Address</span>
+          </button>
+        </div>
       </div>
 
-      <div class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-900 border border-slate-800 font-mono text-xs">
-        <span id="modal-lightning-address" class="text-[#F7931A] truncate flex-1 font-semibold">
-          bitdevskisumu@getalby.com
-        </span>
-        <button 
-          id="copy-address-btn"
-          class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white text-xs font-mono transition-colors flex items-center gap-1"
-        >
-          <span id="copy-btn-text">Copy</span>
-        </button>
+      <!-- Raw LNURL (Collapsible / Copyable) -->
+      <div id="lnurl-row" class="block">
+        <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-1">
+          Raw Bech32 LNURL
+        </div>
+        <div class="flex items-center gap-2 p-2 rounded-xl bg-slate-900/60 border border-slate-800/80 font-mono text-[11px]">
+          <span id="modal-lnurl-string" class="text-slate-400 truncate flex-1 font-mono">
+            lnurl1dp68gurn8ghj7ampd3kx2...
+          </span>
+          <button 
+            id="copy-lnurl-btn"
+            class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-[11px] font-mono transition-colors"
+          >
+            <span id="copy-lnurl-text">Copy LNURL</span>
+          </button>
+        </div>
       </div>
 
       <!-- Action buttons -->
-      <div class="pt-2 flex gap-3">
+      <div class="pt-2">
         <a 
           id="modal-open-wallet-btn"
           href="#"
-          class="w-full py-2.5 rounded-xl bg-[#F7931A] hover:bg-[#E27909] text-black font-bold text-xs font-mono text-center transition-all shadow-md"
+          class="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#F7931A] to-[#E27909] hover:brightness-110 text-black font-bold text-xs font-mono text-center transition-all shadow-md flex items-center justify-center gap-2"
         >
-          Open in Lightning Wallet
+          <span>⚡ Open in Wallet of Satoshi / Lightning App</span>
         </a>
       </div>
     </div>
 
     <!-- Fee note -->
     <div class="mt-4 pt-3 border-t border-slate-800/80 text-center text-[10px] font-mono text-slate-500">
-      Zero foreign exchange fees • Settles in &lt;1 second into Kisumu
+      Sub-second settlement into Western Kenya • 0% middleman fees
     </div>
 
   </div>
@@ -92,25 +111,33 @@
   const closeBtn = document.getElementById('close-modal-btn');
   const recipientText = document.getElementById('modal-recipient-name');
   const addressText = document.getElementById('modal-lightning-address');
+  const lnurlText = document.getElementById('modal-lnurl-string');
   const qrImg = document.getElementById('modal-qr-img') as HTMLImageElement;
-  const copyBtn = document.getElementById('copy-address-btn');
+  const copyAddressBtn = document.getElementById('copy-address-btn');
   const copyBtnText = document.getElementById('copy-btn-text');
+  const copyLnurlBtn = document.getElementById('copy-lnurl-btn');
+  const copyLnurlText = document.getElementById('copy-lnurl-text');
   const openWalletBtn = document.getElementById('modal-open-wallet-btn') as HTMLAnchorElement;
 
-  let currentAddress = "bitdevskisumu@getalby.com";
+  let currentAddress = "potablesignal21@walletofsatoshi.com";
+  let currentLnurl = "lnurl1dp68gurn8ghj7ampd3kx2ar0veekzar0wd5xjtnrdakj7tnhv4kxctttdehhwm30d3h82unvwqhhqmm5v93xcetnd9nkuctvxgcsm55zyn";
 
-  function openModal(name: string, address: string) {
+  function openModal(name: string, address: string, lnurl?: string) {
     currentAddress = address;
-    if (recipientText) recipientText.textContent = `Recipient: ${name}`;
+    currentLnurl = lnurl || address;
+
+    if (recipientText) recipientText.textContent = `${name}`;
     if (addressText) addressText.textContent = address;
+    if (lnurlText) lnurlText.textContent = currentLnurl;
     
-    // Lightning URI
-    const lightningUri = `lightning:${address}`;
+    // Prioritize LNURL for wallet URI if available, fallback to address
+    const targetPayload = lnurl || address;
+    const lightningUri = `lightning:${targetPayload}`;
     if (openWalletBtn) openWalletBtn.href = lightningUri;
 
-    // Generate QR using standard public API
+    // Generate QR using standard QR API
     if (qrImg) {
-      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(lightningUri)}`;
+      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(lightningUri)}`;
     }
 
     if (modal) {
@@ -126,13 +153,14 @@
     }
   }
 
-  // Hook up tip buttons across the page
+  // Hook up all modal open buttons
   document.querySelectorAll('.open-tip-modal-btn, #open-treasury-btn').forEach(button => {
     button.addEventListener('click', (e) => {
       const target = e.currentTarget as HTMLElement;
-      const devName = target.getAttribute('data-dev-name') || "Kisumu Builder";
-      const devLightning = target.getAttribute('data-lightning') || "bitdevskisumu@getalby.com";
-      openModal(devName, devLightning);
+      const devName = target.getAttribute('data-dev-name') || "Stanley Thuita";
+      const devLightning = target.getAttribute('data-lightning') || "potablesignal21@walletofsatoshi.com";
+      const devLnurl = target.getAttribute('data-lnurl') || "lnurl1dp68gurn8ghj7ampd3kx2ar0veekzar0wd5xjtnrdakj7tnhv4kxctttdehhwm30d3h82unvwqhhqmm5v93xcetnd9nkuctvxgcsm55zyn";
+      openModal(devName, devLightning, devLnurl);
     });
   });
 
@@ -152,16 +180,30 @@
     }
   });
 
-  if (copyBtn && copyBtnText) {
-    copyBtn.addEventListener('click', async () => {
+  if (copyAddressBtn && copyBtnText) {
+    copyAddressBtn.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(currentAddress);
         copyBtnText.textContent = "Copied! ✓";
         setTimeout(() => {
-          if (copyBtnText) copyBtnText.textContent = "Copy";
+          if (copyBtnText) copyBtnText.textContent = "Copy Address";
         }, 2000);
       } catch (err) {
         copyBtnText.textContent = "Error";
+      }
+    });
+  }
+
+  if (copyLnurlBtn && copyLnurlText) {
+    copyLnurlBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(currentLnurl);
+        copyLnurlText.textContent = "Copied! ✓";
+        setTimeout(() => {
+          if (copyLnurlText) copyLnurlText.textContent = "Copy LNURL";
+        }, 2000);
+      } catch (err) {
+        copyLnurlText.textContent = "Error";
       }
     });
   }

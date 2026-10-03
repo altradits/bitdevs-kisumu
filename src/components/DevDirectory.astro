@@ -21,7 +21,9 @@ import { developers } from '../data/devs';
 
       <!-- Add profile callout CTA -->
       <a 
-        href="#join-guild" 
+        href="https://github.com/altradits/bitdevs-kisumu" 
+        target="_blank" 
+        rel="noopener noreferrer"
         class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-700 bg-slate-900/60 hover:bg-slate-800 text-xs font-mono text-slate-300 hover:text-white transition-colors self-start md:self-auto"
       >
         <span>+ Add Yourself via GitHub PR</span>
@@ -30,52 +32,98 @@ import { developers } from '../data/devs';
     </div>
 
     <!-- Developer Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       {developers.map((dev) => (
-        <div class="rounded-2xl border border-slate-800 bg-[#0c121e]/90 p-6 flex flex-col justify-between hover:border-slate-700 transition-all shadow-xl hover:shadow-[#F7931A]/5 relative group">
+        <div class="rounded-2xl border border-slate-800 bg-[#0c121e]/90 p-6 sm:p-8 flex flex-col justify-between hover:border-[#F7931A]/40 transition-all shadow-xl relative group">
           
           <div>
             <!-- Header of card -->
             <div class="flex items-start justify-between gap-4 mb-4">
-              <div>
-                <div class="flex items-center gap-2">
-                  <h3 class="font-bold text-lg text-white group-hover:text-[#F7931A] transition-colors">
-                    {dev.name}
-                  </h3>
-                  {dev.availableForHire && (
-                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-emerald-950 text-emerald-300 border border-emerald-800">
-                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                      Open for Hire
+              <div class="flex items-center gap-3.5">
+                {dev.avatar && (
+                  <img 
+                    src={dev.avatar} 
+                    alt={dev.name} 
+                    class="w-14 h-14 rounded-2xl border-2 border-[#F7931A]/30 object-cover shadow-md group-hover:border-[#F7931A] transition-colors"
+                  />
+                )}
+                <div>
+                  <div class="flex flex-wrap items-center gap-2">
+                    <h3 class="font-extrabold text-xl text-white group-hover:text-[#F7931A] transition-colors">
+                      {dev.name}
+                    </h3>
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#F7931A]/10 text-[#F7931A] border border-[#F7931A]/30">
+                      Co-Founder
                     </span>
-                  )}
+                    {dev.availableForHire && (
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-emerald-950 text-emerald-300 border border-emerald-800">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        Available for Hire
+                      </span>
+                    )}
+                  </div>
+                  <p class="text-xs font-mono text-slate-400 mt-0.5">{dev.role}</p>
                 </div>
-                <p class="text-xs font-mono text-slate-400 mt-0.5">{dev.role}</p>
               </div>
 
               <!-- Location Tag -->
-              <span class="text-[11px] font-mono text-slate-400 px-2 py-1 rounded bg-slate-800/80 border border-slate-700/60">
+              <span class="text-[11px] font-mono text-slate-400 px-2.5 py-1 rounded bg-slate-800/80 border border-slate-700/60 hidden sm:inline-block">
                 📍 {dev.location}
               </span>
             </div>
 
             <!-- Bio -->
-            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5">
               {dev.bio}
             </p>
 
-            <!-- Featured project if available -->
+            <!-- Featured project -->
             {dev.featuredProject && (
-              <div class="mb-4 p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 text-xs">
-                <div class="text-[10px] font-mono uppercase text-[#F7931A] mb-1">Featured Build</div>
-                <div class="font-semibold text-slate-200">{dev.featuredProject.name}</div>
-                <div class="text-slate-400 text-[11px] mt-0.5">{dev.featuredProject.description}</div>
+              <div class="mb-4 p-4 rounded-xl bg-slate-950/70 border border-slate-800/90 text-xs">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-[10px] font-mono uppercase tracking-wider text-[#F7931A] font-bold">Featured Curriculum & Repository</span>
+                  <a 
+                    href={dev.featuredProject.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class="text-xs text-slate-400 hover:text-white font-mono flex items-center gap-1"
+                  >
+                    <span>View Code</span>
+                    <span>↗</span>
+                  </a>
+                </div>
+                <div class="font-bold text-slate-100 text-sm">{dev.featuredProject.name}</div>
+                <div class="text-slate-400 text-xs mt-1 leading-relaxed">{dev.featuredProject.description}</div>
+              </div>
+            )}
+
+            <!-- Open source highlights -->
+            {dev.openSourceHighlights && dev.openSourceHighlights.length > 0 && (
+              <div class="mb-5 space-y-2">
+                <div class="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-semibold">Open Source Contributions</div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {dev.openSourceHighlights.map((repo) => (
+                    <a 
+                      href={repo.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition-colors block text-xs group/repo"
+                    >
+                      <div class="font-mono font-semibold text-slate-200 group-hover/repo:text-[#F7931A] flex items-center justify-between">
+                        <span>{repo.name}</span>
+                        <span class="text-[10px]">↗</span>
+                      </div>
+                      <p class="text-[11px] text-slate-400 mt-1 line-clamp-2">{repo.description}</p>
+                    </a>
+                  ))}
+                </div>
               </div>
             )}
 
             <!-- Skills chips -->
             <div class="flex flex-wrap gap-1.5 mb-6">
               {dev.skills.map((skill) => (
-                <span class="text-[11px] font-mono px-2 py-0.5 rounded-md bg-slate-800/60 text-slate-300 border border-slate-700/50">
+                <span class="text-[11px] font-mono px-2.5 py-0.5 rounded-md bg-slate-800/60 text-slate-300 border border-slate-700/50">
                   {skill}
                 </span>
               ))}
@@ -85,38 +133,91 @@ import { developers } from '../data/devs';
           <!-- Bottom Action Rails -->
           <div class="pt-4 border-t border-slate-800 flex items-center justify-between gap-3">
             
-            <!-- External Links (GitHub, etc) -->
+            <!-- External Links (GitHub, Twitter) -->
             <div class="flex items-center gap-2">
               <a 
                 href={dev.github} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                class="p-2 rounded-lg bg-slate-800/60 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+                class="p-2 rounded-lg bg-slate-800/60 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-mono"
                 title="View GitHub"
               >
                 <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
                   <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
                 </svg>
+                <span>GitHub</span>
               </a>
 
-              <span class="text-xs font-mono text-slate-400 hidden sm:inline" title={dev.lightningAddress}>
-                ⚡ {dev.lightningAddress.split('@')[0]}@...
-              </span>
+              {dev.twitter && (
+                <a 
+                  href={dev.twitter} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="p-2 rounded-lg bg-slate-800/60 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors text-xs font-mono"
+                  title="Twitter / X"
+                >
+                  𝕏 @BitDevsKsm
+                </a>
+              )}
             </div>
 
             <!-- Tip / Pay Button -->
             <button 
-              class="open-tip-modal-btn px-3.5 py-1.5 rounded-lg bg-[#F7931A]/10 hover:bg-[#F7931A]/20 border border-[#F7931A]/40 text-[#F7931A] text-xs font-mono font-bold flex items-center gap-1.5 transition-all active:scale-95 shadow-sm"
+              class="open-tip-modal-btn px-4 py-2 rounded-xl bg-gradient-to-r from-[#F7931A] to-[#E27909] text-black text-xs font-mono font-bold flex items-center gap-1.5 transition-all active:scale-95 shadow-lg shadow-[#F7931A]/20 hover:brightness-110"
               data-dev-id={dev.id}
               data-dev-name={dev.name}
               data-lightning={dev.lightningAddress}
+              data-lnurl={dev.lnurl}
             >
-              <span>⚡ Tip / Pay Sats</span>
+              <span>⚡ Tip / Pay Stanley</span>
             </button>
           </div>
 
         </div>
       ))}
+
+      <!-- Callout card for Developer #002 -->
+      <div class="rounded-2xl border-2 border-dashed border-slate-800 hover:border-slate-700 bg-slate-900/20 p-8 flex flex-col justify-between items-center text-center transition-all">
+        <div class="my-auto py-8">
+          <div class="w-16 h-16 rounded-2xl bg-slate-800/80 border border-slate-700 flex items-center justify-center mx-auto mb-4 text-2xl">
+            🤝
+          </div>
+          <span class="text-xs font-mono uppercase text-[#F7931A] tracking-wider font-semibold">
+            Join the Guild
+          </span>
+          <h3 class="text-2xl font-bold text-white mt-1">
+            Claim Spot #002 in Kisumu
+          </h3>
+          <p class="mt-2 text-sm text-slate-400 max-w-sm mx-auto leading-relaxed">
+            Are you a software engineer or student in Kisumu, Maseno, or Western Kenya building with Go, Rust, TypeScript, or Bitcoin?
+          </p>
+          <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a 
+              href="https://github.com/altradits/bitdevs-kisumu" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-mono text-xs font-bold transition-colors inline-flex items-center gap-2"
+            >
+              <span>Submit PR to devs.ts</span>
+              <span>↗</span>
+            </a>
+            <a 
+              href="https://t.me/+bitdevskisumu" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="px-5 py-2.5 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/30 font-mono text-xs font-bold transition-colors inline-flex items-center gap-2"
+            >
+              <span>Join Telegram</span>
+              <span>💬</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="w-full pt-4 border-t border-slate-800/60 text-xs font-mono text-slate-500 text-center">
+          Open to all builders • Free & non-custodial
+        </div>
+      </div>
+
     </div>
 
     <!-- How to join guild instructions box -->
@@ -132,7 +233,7 @@ import { developers } from '../data/devs';
         </div>
 
         <a 
-          href="https://github.com" 
+          href="https://github.com/altradits/bitdevs-kisumu" 
           target="_blank" 
           rel="noopener noreferrer"
           class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-mono text-xs font-bold transition-colors inline-flex items-center gap-2 self-start md:self-auto"
