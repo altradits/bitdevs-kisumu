@@ -1,59 +1,101 @@
 ---
-import { quests } from '../data/quests';
-import { payingProjects } from '../data/payingProjects';
+import { octoberSprintRoadmap } from '../data/octoberSprintRoadmap';
+import { globalBountyPrograms } from '../data/openSourceBounties';
+import { toolsToBuild } from '../data/toolsToBuild';
 
-const totalChallenges = quests.reduce((acc, q) => acc + q.challenges.length, 0);
-const totalSatsPotential = payingProjects.reduce((acc, p) => acc + p.rewardSats, 0) + 
-  quests.reduce((acc, q) => acc + q.challenges.reduce((sum, c) => sum + c.rewardSats, 0), 0);
+const totalDailyTasks = octoberSprintRoadmap.reduce((acc, w) => acc + w.dailyPlan.length, 0);
+const totalTools = toolsToBuild.length;
+const totalPrograms = globalBountyPrograms.length;
+
+const prTemplateText = `## Summary
+Fixes #[issue_number] or implements [feature_name] in pure Go.
+
+## Motivation & Context
+In emerging markets with limited bandwidth, memory optimization and offline reliability are paramount.
+
+## Changes Made
+- [x] Implemented module with zero heap allocations on hot path
+- [x] Added comprehensive unit tests against standard Bitcoin test vectors
+- [x] Tested with go test -race ./... and golangci-lint run
+
+## Benchmark Results
+BenchmarkExecution-8   1000000   1024 ns/op   0 B/op   0 allocs/op
+
+Signed-off-by: Stanley Thuita <altradits@gmail.com>`;
+
+const grantPitchText = `Subject: Developer Grant Application — Stanley Thuita (Kenya)
+
+Hi Team,
+
+I am Stanley Thuita (altradits), a Go engineer and Co-Founder of BitDevs Kisumu in Western Kenya.
+
+My focus is building sovereign Bitcoin infrastructure adapted for African constraints:
+1. altradits/challenges: 158-lesson Go engineering curriculum training local developers
+2. altradits/bitkeys & rawtx: Pure Go Bitcoin cryptographic primitives and transaction signing
+3. altradits/l402-proxy: Lightning micropayment proxies for local developers to attract global revenue
+4. Blockstream Satellite node synchronization for the Lake Victoria basin
+
+With this fellowship, I will commit full-time to contributing to Bitcoin Core / LDK / btcsuite, ensuring African developers have first-class open-source tooling and resilience.
+
+GitHub: https://github.com/altradits
+Community: https://bitdevs-kisumu.vercel.app`;
 ---
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" id="forge-root">
   
-  <!-- Top Banner / HUD Header -->
-  <div class="rounded-3xl border border-slate-800 bg-gradient-to-br from-[#0c121e] via-[#090d16] to-[#0c121e] p-6 sm:p-8 shadow-2xl relative overflow-hidden mb-10">
+  <!-- Personal Command Center Header -->
+  <div class="rounded-3xl border border-slate-800 bg-gradient-to-br from-[#0c121e] via-[#080d17] to-[#0c121e] p-6 sm:p-8 shadow-2xl relative overflow-hidden mb-10">
     <div class="absolute top-0 right-0 w-96 h-96 bg-[#F7931A]/10 rounded-full blur-3xl pointer-events-none"></div>
 
     <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-800/80">
       <div>
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F7931A]/10 border border-[#F7931A]/30 text-xs font-mono font-bold text-[#F7931A] mb-3">
-          <span class="w-2 h-2 rounded-full bg-[#F7931A] animate-ping"></span>
-          <span>Altradits Bitcoin Dev Forge • Speedrun to Protocol PR</span>
+        <div class="flex flex-wrap items-center gap-2 mb-3">
+          <span class="px-3 py-1 rounded-full bg-[#F7931A]/15 border border-[#F7931A]/40 text-xs font-mono font-bold text-[#F7931A]">
+            ⚡ Stanley Thuita (Altradits) Command Center
+          </span>
+          <span class="px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-800 text-xs font-mono font-bold text-emerald-300 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Sprint Starts Monday, October 5th, 2026
+          </span>
         </div>
-        <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-          Train in Go. Push PRs. Earn Sats.
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
+          Bitcoin Open Source Accelerator & Earning Radar
         </h1>
-        <p class="mt-2 text-sm sm:text-base text-slate-400 max-w-2xl leading-relaxed">
-          The accelerated training terminal for <strong class="text-white">Altradits (Stanley Thuita)</strong> and Kisumu developers. Complete structured Go challenges from your 158-lesson curriculum, solve verified Bitcoin bounties, and submit merged PRs.
+        <p class="mt-2 text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
+          Your personal engineering roadmap to master Bitcoin protocol development in pure Go, build a portfolio of 5 production tools, and capture paying global open-source grants and sats bounties.
         </p>
       </div>
 
-      <!-- Live Interactive Stats & XP Tracker -->
-      <div class="flex flex-wrap sm:flex-nowrap items-center gap-4 bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
-        <div class="text-center px-4 border-r border-slate-800">
-          <span class="text-[10px] font-mono uppercase text-slate-500 block">Current Rank</span>
-          <span id="hud-level-text" class="text-lg font-mono font-extrabold text-[#F7931A]">Level 1</span>
-          <span class="text-[10px] text-slate-400 block font-mono">Go Initiate</span>
+      <!-- Live Interactive Stats & Target Tracker -->
+      <div class="flex flex-wrap sm:flex-nowrap items-center gap-3 bg-slate-950/90 p-4 rounded-2xl border border-slate-800">
+        <div class="text-center px-3 border-r border-slate-800">
+          <span class="text-[10px] font-mono uppercase text-slate-500 block">Daily Tasks Done</span>
+          <span id="hud-tasks-done" class="text-lg font-mono font-extrabold text-[#F7931A]">0 / {totalDailyTasks}</span>
+          <span class="text-[10px] text-slate-400 block font-mono">Oct 5 – Nov 1</span>
         </div>
 
-        <div class="text-center px-4 border-r border-slate-800">
-          <span class="text-[10px] font-mono uppercase text-slate-500 block">Sats Earned</span>
-          <span id="hud-sats-text" class="text-lg font-mono font-extrabold text-emerald-400">0 Sats</span>
-          <span class="text-[10px] text-slate-400 block font-mono">Verified in Wallet</span>
+        <div class="text-center px-3 border-r border-slate-800">
+          <span class="text-[10px] font-mono uppercase text-slate-500 block">Tools Shipped</span>
+          <span id="hud-tools-done" class="text-lg font-mono font-extrabold text-[#38BDF8]">0 / {totalTools}</span>
+          <span class="text-[10px] text-slate-400 block font-mono">Proof-of-Work</span>
         </div>
 
-        <div class="text-center px-4">
-          <span class="text-[10px] font-mono uppercase text-slate-500 block">PRs Merged</span>
-          <span id="hud-pr-count" class="text-lg font-mono font-extrabold text-[#38BDF8]">0 / 4</span>
-          <span class="text-[10px] text-slate-400 block font-mono">Target: Brink / LND</span>
+        <div class="text-center px-3">
+          <span class="text-[10px] font-mono uppercase text-slate-500 block">Paying Programs</span>
+          <span class="text-lg font-mono font-extrabold text-emerald-400">{totalPrograms} Active</span>
+          <span class="text-[10px] text-slate-400 block font-mono">$25k–$150k Grants</span>
         </div>
       </div>
     </div>
 
-    <!-- Progress Bar -->
+    <!-- Overall Sprint Progress Bar -->
     <div class="mt-6">
       <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
-        <span>Progress to Full Bitcoin Core / Protocol Contributor</span>
-        <span id="hud-progress-percent">0% Completed</span>
+        <span class="flex items-center gap-2">
+          <span>🚀 October Sprint Mastery Progress:</span>
+          <span id="hud-progress-percent" class="text-[#F7931A] font-bold">0% Completed</span>
+        </span>
+        <span class="text-slate-500">Destination: Funded Open-Source Fellow</span>
       </div>
       <div class="w-full h-3 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
         <div id="hud-progress-bar" class="h-full bg-gradient-to-r from-[#F7931A] via-amber-400 to-emerald-400 w-0 transition-all duration-500 rounded-full"></div>
@@ -63,247 +105,124 @@ const totalSatsPotential = payingProjects.reduce((acc, p) => acc + p.rewardSats,
     <!-- Navigation Tabs -->
     <div class="mt-8 flex flex-wrap gap-2 pt-4 border-t border-slate-800/60" id="forge-tabs">
       <button 
-        data-tab="paying-projects" 
+        data-tab="roadmap" 
         class="tab-btn px-4 py-2.5 rounded-xl font-mono text-xs font-bold transition-all flex items-center gap-2 bg-[#F7931A] text-black shadow-md"
       >
-        <span>💰 Live Paying Projects</span>
+        <span>📅 October 5th Sprint Roadmap</span>
         <span class="px-1.5 py-0.5 rounded bg-black/20 text-black text-[10px] font-mono">
-          {payingProjects.length} Open
+          4 Weeks
         </span>
       </button>
 
       <button 
-        data-tab="curriculum-quests" 
+        data-tab="paying-radar" 
         class="tab-btn px-4 py-2.5 rounded-xl font-mono text-xs font-bold transition-all flex items-center gap-2 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white"
       >
-        <span>🎯 Training Quests (Go → BTC)</span>
-        <span class="px-1.5 py-0.5 rounded bg-slate-700 text-slate-300 text-[10px] font-mono">
-          {totalChallenges} Challenges
+        <span>💰 Global Paying Projects Radar</span>
+        <span class="px-1.5 py-0.5 rounded bg-emerald-900/60 text-emerald-300 text-[10px] font-mono">
+          {totalPrograms} Programs
         </span>
       </button>
 
       <button 
-        data-tab="pr-studio" 
+        data-tab="tools-pipeline" 
         class="tab-btn px-4 py-2.5 rounded-xl font-mono text-xs font-bold transition-all flex items-center gap-2 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white"
       >
-        <span>🐙 PR Generator & Git Studio</span>
+        <span>🛠️ 5 Bitcoin Tools to Build</span>
         <span class="px-1.5 py-0.5 rounded bg-blue-900/60 text-blue-300 text-[10px] font-mono">
-          PR Ready
+          {totalTools} Repos
         </span>
+      </button>
+
+      <button 
+        data-tab="pr-playbook" 
+        class="tab-btn px-4 py-2.5 rounded-xl font-mono text-xs font-bold transition-all flex items-center gap-2 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white"
+      >
+        <span>📝 PR & Grant Playbook</span>
       </button>
     </div>
   </div>
 
-  <!-- TAB CONTENT 1: PAYING PROJECTS -->
-  <div id="tab-paying-projects" class="tab-pane block space-y-6">
+  <!-- TAB 1: OCTOBER 5TH SPRINT ROADMAP -->
+  <div id="tab-roadmap" class="tab-pane block space-y-8">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-2">
       <div>
         <h2 class="text-2xl font-bold text-white flex items-center gap-2">
-          <span>Active Paid Bitcoin Bounties & PR Targets</span>
+          <span>📅 October 5th – November 1st Daily Sprint</span>
         </h2>
         <p class="text-sm text-slate-400 mt-1">
-          Real tasks with allocated funds. Solve the acceptance criteria, submit your PR, and get paid satoshis directly to your Wallet of Satoshi (<code class="text-[#F7931A]">potablesignal21@walletofsatoshi.com</code>).
+          Every single day has a clear theoretical reading, a practice assignment, and a concrete codebase deliverable. Check off days as you complete them to track your progress.
         </p>
       </div>
-      <div class="px-3 py-1.5 rounded-xl bg-emerald-950/80 border border-emerald-800 text-emerald-300 font-mono text-xs font-bold">
-        Total Pool: 1,200,000 Sats (~$1,200)
+      <div class="px-3.5 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs font-mono text-[#F7931A]">
+        Total Est. Effort: ~110 Hours
       </div>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      {payingProjects.map((project) => (
-        <div class="rounded-2xl border border-slate-800 bg-[#0c121e]/90 p-6 flex flex-col justify-between hover:border-[#F7931A]/40 transition-all shadow-xl group">
-          <div>
-            <!-- Header -->
-            <div class="flex items-start justify-between gap-4 mb-3">
-              <div>
-                <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
-                  {project.category}
-                </span>
-                <span class="ml-2 text-[10px] font-mono text-emerald-400 font-bold">
-                  ⏱ {project.estimatedHours}
-                </span>
-                <h3 class="font-bold text-lg text-white group-hover:text-[#F7931A] transition-colors mt-2">
-                  {project.title}
-                </h3>
-              </div>
-
-              <!-- Bounty Reward Pill -->
-              <div class="text-right">
-                <div class="text-lg font-mono font-extrabold text-emerald-400">
-                  ⚡ {project.rewardSats.toLocaleString()} Sats
-                </div>
-                <div class="text-[11px] font-mono text-slate-400">
-                  {project.rewardFiat}
-                </div>
-              </div>
-            </div>
-
-            <!-- Description -->
-            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
-              {project.description}
-            </p>
-
-            <!-- Target Repository Badge -->
-            <div class="mb-4 p-3 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center justify-between text-xs font-mono">
-              <span class="text-slate-400">Target Repo:</span>
-              <a 
-                href={project.repoUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="text-[#38BDF8] hover:underline font-bold flex items-center gap-1"
-              >
-                <span>{project.targetRepo}</span>
-                <span>↗</span>
-              </a>
-            </div>
-
-            <!-- Acceptance Criteria -->
-            <div class="mb-4">
-              <div class="text-[11px] font-mono uppercase text-slate-400 font-semibold mb-2">
-                Acceptance Criteria (What Must Pass)
-              </div>
-              <ul class="space-y-1.5 text-xs text-slate-300">
-                {project.acceptanceCriteria.map((item) => (
-                  <li class="flex items-start gap-2">
-                    <span class="text-[#F7931A] font-bold">✓</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <!-- Bottom Action Buttons -->
-          <div class="pt-4 border-t border-slate-800 flex items-center justify-between gap-3">
-            <button 
-              class="launch-pr-btn px-4 py-2 rounded-xl bg-[#F7931A] hover:bg-[#E27909] text-black font-mono font-bold text-xs transition-all shadow-md flex items-center gap-1.5"
-              data-project-id={project.id}
-              data-project-title={project.title}
-              data-branch={project.prTemplate.branchName}
-              data-pr-title={project.prTemplate.title}
-              data-pr-body={project.prTemplate.body}
-              data-repo={project.targetRepo}
-              data-sats={project.rewardSats}
-            >
-              <span>🐙 Prepare PR & Git Commands</span>
-            </button>
-
-            <button 
-              class="claim-sats-btn px-3 py-2 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 font-mono text-xs font-semibold transition-all"
-              data-project-id={project.id}
-              data-sats={project.rewardSats}
-            >
-              <span>Mark PR Submitted (+Sats)</span>
-            </button>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-
-  <!-- TAB CONTENT 2: CURRICULUM QUESTS -->
-  <div id="tab-curriculum-quests" class="tab-pane hidden space-y-8">
-    <div class="mb-6">
-      <h2 class="text-2xl font-bold text-white flex items-center gap-2">
-        <span>Go to Bitcoin Protocol Training Path</span>
-      </h2>
-      <p class="text-sm text-slate-400 mt-1">
-        Tied to Stanley's 158-lesson Go Mastery curriculum (<a href="https://github.com/altradits/challenges" target="_blank" class="text-[#F7931A] underline">altradits/challenges</a>). Master one concept at a time, inspect the Go solutions, and run unit tests.
-      </p>
     </div>
 
     <div class="space-y-8">
-      {quests.map((quest) => (
+      {octoberSprintRoadmap.map((week) => (
         <div class="rounded-2xl border border-slate-800 bg-[#0c121e]/90 p-6 sm:p-8 shadow-xl">
           
-          <!-- Quest Header -->
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
-            <div class="flex items-center gap-3">
-              <span class="text-3xl">{quest.icon}</span>
-              <div>
-                <h3 class="text-xl font-bold text-white">{quest.title}</h3>
-                <p class="text-xs font-mono text-[#F7931A] mt-0.5">{quest.subtitle}</p>
+          <!-- Week Header -->
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-slate-800">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-[#F7931A] text-black">
+                  WEEK {week.week}
+                </span>
+                <span class="text-xs font-mono text-slate-400">
+                  {week.dates}
+                </span>
               </div>
+              <h3 class="text-xl font-bold text-white mt-1.5">{week.title}</h3>
+              <p class="text-xs text-slate-400 mt-0.5 font-mono">{week.coreGoal}</p>
             </div>
-            <div class="text-xs font-mono text-slate-400 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
-              🎯 Milestone: {quest.targetMilestone}
+
+            <!-- Tool Target for this Week -->
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center gap-3">
+              <span class="text-2xl">📦</span>
+              <div>
+                <span class="text-[10px] font-mono uppercase text-[#F7931A] font-bold block">Deliverable Tool</span>
+                <span class="font-bold text-sm text-white font-mono">{week.toolToBuild.name}</span>
+                <span class="text-[11px] text-slate-400 block max-w-xs truncate">{week.toolToBuild.description}</span>
+              </div>
             </div>
           </div>
 
-          <p class="text-xs sm:text-sm text-slate-300 mt-4 mb-6 leading-relaxed">
-            {quest.description}
-          </p>
-
-          <!-- Challenges in this Quest -->
-          <div class="space-y-6">
-            {quest.challenges.map((challenge) => (
-              <div class="rounded-xl border border-slate-800/90 bg-slate-950/70 p-5 challenge-card" data-challenge-id={challenge.id} data-sats={challenge.rewardSats}>
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
-                  <div class="flex items-center gap-2">
-                    <span class="w-6 h-6 rounded-md bg-[#F7931A]/20 text-[#F7931A] font-mono font-bold text-xs flex items-center justify-center">
-                      {challenge.number}
-                    </span>
-                    <h4 class="font-bold text-base text-white">{challenge.title}</h4>
-                    <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
-                      Tier {challenge.tier}
-                    </span>
-                  </div>
-
-                  <div class="flex items-center gap-2">
-                    <span class="text-xs font-mono text-emerald-400 font-bold">
-                      +{challenge.rewardSats.toLocaleString()} Sats / 50 XP
-                    </span>
-                    <button 
-                      class="complete-challenge-btn px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono transition-colors"
-                      data-challenge-id={challenge.id}
-                      data-sats={challenge.rewardSats}
-                    >
-                      Mark Solved ✓
-                    </button>
-                  </div>
-                </div>
-
-                <!-- Problem Objective -->
-                <p class="text-xs sm:text-sm text-slate-300 mb-3 leading-relaxed">
-                  <strong>Task:</strong> {challenge.objective}
-                </p>
-
-                <!-- Why Bitcoin -->
-                <div class="p-3 rounded-lg bg-amber-950/20 border border-amber-900/40 text-xs text-amber-200/90 mb-4">
-                  <strong class="text-[#F7931A]">Why Bitcoin Needs This:</strong> {challenge.whyBitcoin}
-                </div>
-
-                <!-- Code Workspace (Interactive Tabs: Starter vs Solution) -->
-                <div class="rounded-xl bg-slate-900 border border-slate-800 overflow-hidden font-mono text-xs">
-                  <div class="flex items-center justify-between px-4 py-2 bg-slate-950 border-b border-slate-800 text-slate-400 text-[11px]">
-                    <div class="flex items-center gap-3">
-                      <span class="text-[#38BDF8] font-bold">Go Implementation</span>
-                      <span>•</span>
-                      <span>Run: <code class="text-slate-300">{challenge.testCommand}</code></span>
+          <!-- Daily Plan Table / Cards -->
+          <div class="mt-6 space-y-3">
+            {week.dailyPlan.map((day) => (
+              <div 
+                class="daily-task-row p-4 rounded-xl bg-slate-950/70 border border-slate-800/80 hover:border-slate-700 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4"
+                data-task-id={`task-${day.date.replace(/\s+/g, '-').toLowerCase()}`}
+              >
+                <div class="flex items-start gap-3">
+                  <input 
+                    type="checkbox" 
+                    class="task-checkbox mt-1 w-4 h-4 rounded border-slate-700 text-[#F7931A] focus:ring-[#F7931A] focus:ring-offset-0 bg-slate-900 cursor-pointer"
+                    data-task-id={`task-${day.date.replace(/\s+/g, '-').toLowerCase()}`}
+                  />
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <span class="text-xs font-mono font-bold text-[#F7931A]">{day.date} ({day.day}):</span>
+                      <h4 class="font-bold text-sm text-white">{day.topic}</h4>
+                      <span class="text-[10px] font-mono text-slate-500">⏱ {day.estimatedHours}h</span>
                     </div>
-                    <button 
-                      class="toggle-solution-btn text-xs text-[#F7931A] hover:underline"
-                      data-target={`solution-${challenge.id}`}
-                    >
-                      Show Go Solution & Explanation ▼
-                    </button>
-                  </div>
 
-                  <!-- Starter Code -->
-                  <div class="p-4 overflow-x-auto text-slate-200 whitespace-pre">
-{challenge.starterCode}
-                  </div>
-
-                  <!-- Collapsible Solution -->
-                  <div id={`solution-${challenge.id}`} class="hidden border-t border-slate-800 bg-[#090d16] p-4">
-                    <div class="text-[11px] uppercase tracking-wider text-emerald-400 font-bold mb-2">
-                      Verified Reference Solution (Zero Allocation)
-                    </div>
-                    <pre class="overflow-x-auto text-emerald-200/90 whitespace-pre"><code>{challenge.solutionCode}</code></pre>
+                    <p class="text-xs text-slate-300 mt-1">
+                      <strong class="text-slate-400">Reading:</strong> {day.reading}
+                    </p>
+                    <p class="text-xs text-slate-300 mt-0.5">
+                      <strong class="text-slate-400">Assignment:</strong> {day.practiceAssignment}
+                    </p>
                   </div>
                 </div>
 
+                <!-- Deliverable Badge -->
+                <div class="md:text-right shrink-0">
+                  <span class="text-[10px] font-mono text-slate-500 uppercase block">Code Deliverable</span>
+                  <span class="text-xs font-mono font-semibold text-[#38BDF8]">{day.toolDeliverable}</span>
+                </div>
               </div>
             ))}
           </div>
@@ -313,114 +232,276 @@ const totalSatsPotential = payingProjects.reduce((acc, p) => acc + p.rewardSats,
     </div>
   </div>
 
-  <!-- TAB CONTENT 3: PR GENERATOR & GIT STUDIO -->
-  <div id="tab-pr-studio" class="tab-pane hidden space-y-6">
+  <!-- TAB 2: GLOBAL PAYING PROJECTS RADAR -->
+  <div id="tab-paying-radar" class="tab-pane hidden space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-2">
+      <div>
+        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+          <span>💰 Available Paying Open Source Programs Online</span>
+        </h2>
+        <p class="text-sm text-slate-400 mt-1">
+          Active international grants, fellowships, and per-issue Lightning bounties where you can apply or push PRs to get paid in Bitcoin / USD.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-mono text-slate-400">Total Opportunities:</span>
+        <span class="px-2.5 py-1 rounded bg-[#F7931A]/10 border border-[#F7931A]/30 text-xs font-mono font-bold text-[#F7931A]">
+          {globalBountyPrograms.length} Verified Sources
+        </span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {globalBountyPrograms.map((prog) => (
+        <div class="rounded-2xl border border-slate-800 bg-[#0c121e]/90 p-6 sm:p-7 flex flex-col justify-between hover:border-[#F7931A]/40 transition-all shadow-xl group">
+          <div>
+            <!-- Header -->
+            <div class="flex items-start justify-between gap-4 mb-3">
+              <div>
+                <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-slate-800 text-[#F7931A] border border-slate-700 font-bold">
+                  {prog.payoutType}
+                </span>
+                <span class="ml-2 text-[10px] font-mono text-slate-400">
+                  {prog.sponsor}
+                </span>
+                <h3 class="font-bold text-xl text-white group-hover:text-[#F7931A] transition-colors mt-2">
+                  {prog.name}
+                </h3>
+              </div>
+
+              <!-- Payout Range -->
+              <div class="text-right shrink-0">
+                <div class="text-base sm:text-lg font-mono font-extrabold text-emerald-400">
+                  {prog.payoutRange}
+                </div>
+                <div class="text-[10px] font-mono text-slate-400">
+                  {prog.payoutCurrency}
+                </div>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
+              {prog.description}
+            </p>
+
+            <!-- Tech stack chips -->
+            <div class="flex flex-wrap gap-1.5 mb-4">
+              {prog.techStack.map((tech) => (
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800">
+                  {tech}
+                </span>
+              ))}
+            </div>
+
+            <!-- Stanley's Winning Strategy Box -->
+            <div class="p-3.5 rounded-xl bg-amber-950/20 border border-amber-900/40 text-xs mb-4">
+              <div class="text-[10px] font-mono uppercase tracking-wider text-[#F7931A] font-bold mb-1 flex items-center gap-1.5">
+                <span>🎯 Stanley's Winning Strategy</span>
+              </div>
+              <p class="text-amber-200/90 leading-relaxed">
+                {prog.winningStrategy}
+              </p>
+            </div>
+
+            <!-- Sample deliverables -->
+            <div class="mb-2">
+              <span class="text-[10px] font-mono uppercase text-slate-400 font-semibold block mb-1">
+                Sample Target Deliverables / Issues
+              </span>
+              <ul class="space-y-1 text-xs text-slate-300">
+                {prog.sampleIssuesOrDeliverables.map((item) => (
+                  <li class="flex items-start gap-2">
+                    <span class="text-[#38BDF8] font-bold">›</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <!-- Bottom Action Buttons -->
+          <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between gap-3">
+            <span class="text-[11px] font-mono text-slate-400">
+              Status: <strong class="text-emerald-400">{prog.applicationStatus}</strong>
+            </span>
+
+            <div class="flex items-center gap-2">
+              {prog.issuesUrl && (
+                <a 
+                  href={prog.issuesUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-300 hover:text-white transition-colors"
+                >
+                  Live Issues ↗
+                </a>
+              )}
+              <a 
+                href={prog.url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="px-4 py-1.5 rounded-lg bg-[#F7931A] hover:bg-[#E27909] text-black font-mono font-bold text-xs transition-all shadow-md flex items-center gap-1"
+              >
+                <span>Apply / Submit</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- TAB 3: 5 BITCOIN TOOLS TO BUILD -->
+  <div id="tab-tools-pipeline" class="tab-pane hidden space-y-8">
+    <div class="mb-4">
+      <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+        <span>🛠️ The 5 Bitcoin Practice Tools to Build in Go</span>
+      </h2>
+      <p class="text-sm text-slate-400 mt-1">
+        Instead of just solving throwaway exercises, every week you will package what you learn into a standalone, production-ready Go repository. These repos serve as your undeniable Proof-of-Work to win grants from Brink, Spiral, and HRF.
+      </p>
+    </div>
+
+    <div class="space-y-6">
+      {toolsToBuild.map((tool) => (
+        <div class="rounded-2xl border border-slate-800 bg-[#0c121e]/90 p-6 sm:p-8 shadow-xl">
+          <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-6 pb-4 border-b border-slate-800">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-[#38BDF8] text-black">
+                  Week {tool.weekAssigned}
+                </span>
+                <span class="text-xs font-mono text-slate-400">{tool.dates}</span>
+              </div>
+              <h3 class="text-2xl font-mono font-extrabold text-white mt-2 flex items-center gap-2">
+                <span>{tool.name}</span>
+                <span class="text-xs font-mono font-normal text-slate-400">({tool.repo})</span>
+              </h3>
+              <p class="text-sm text-[#F7931A] font-mono mt-0.5">{tool.tagline}</p>
+            </div>
+
+            <!-- How it earns sats pill -->
+            <div class="p-3 rounded-xl bg-emerald-950/40 border border-emerald-800/80 text-xs font-mono text-emerald-300 max-w-sm">
+              <strong class="text-emerald-400 uppercase text-[10px] block mb-0.5">💰 How It Earns Sats:</strong>
+              {tool.howItEarnsSats}
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+            
+            <!-- Details & Learning outcome -->
+            <div>
+              <div class="mb-4">
+                <span class="text-[10px] font-mono uppercase text-slate-400 font-bold block mb-1">
+                  Learning Outcome
+                </span>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  {tool.learningOutcome}
+                </p>
+              </div>
+
+              <div>
+                <span class="text-[10px] font-mono uppercase text-slate-400 font-bold block mb-2">
+                  Key Specifications
+                </span>
+                <ul class="space-y-1.5 text-xs text-slate-300">
+                  {tool.keyFeatures.map((feat) => (
+                    <li class="flex items-start gap-2">
+                      <span class="text-[#F7931A]">✓</span>
+                      <span>{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class="mt-4 flex flex-wrap gap-1.5">
+                {tool.techStack.map((tech) => (
+                  <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <!-- Interactive CLI Terminal Output Preview -->
+            <div class="flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between text-[11px] font-mono text-slate-500 mb-1 pb-1">
+                  <span>Terminal Execution Preview</span>
+                  <span>CLI Output</span>
+                </div>
+                <pre class="p-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-slate-200 overflow-x-auto whitespace-pre leading-relaxed">{tool.cliPreview}</pre>
+              </div>
+
+              <div class="mt-4 pt-3 flex items-center justify-between">
+                <a 
+                  href={`https://github.com/${tool.repo}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-mono text-white transition-colors flex items-center gap-1.5"
+                >
+                  <span>Create / View {tool.repo} on GitHub</span>
+                  <span>↗</span>
+                </a>
+
+                <button 
+                  class="tool-shipped-btn px-4 py-2 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 font-mono text-xs font-semibold transition-all"
+                  data-tool-id={tool.id}
+                >
+                  Mark Tool Shipped ✓
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- TAB 4: PR & GRANT PLAYBOOK -->
+  <div id="tab-pr-playbook" class="tab-pane hidden space-y-6">
     <div class="rounded-2xl border border-slate-800 bg-[#0c121e]/90 p-6 sm:p-8 shadow-xl">
       <div class="mb-6 pb-4 border-b border-slate-800">
         <h2 class="text-2xl font-bold text-white flex items-center gap-2">
-          <span>🐙 Pull Request Workshop & Git Terminal</span>
+          <span>📝 Open Source PR & Grant Application Playbook</span>
         </h2>
         <p class="text-sm text-slate-400 mt-1">
-          Prepare, verify, and submit your pull request cleanly according to Bitcoin Core and Go open-source standards.
+          Exact templates and guidelines to submit clean, review-ready pull requests to external Bitcoin projects and draft compelling grant applications to Brink and Spiral.
         </p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         
-        <!-- Controls & Input Form -->
+        <!-- Pull Request Template -->
         <div class="space-y-4">
-          <div>
-            <label class="block text-xs font-mono uppercase text-slate-400 mb-1">Target Bounty Project</label>
-            <select id="pr-project-select" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-white font-mono text-xs focus:outline-none focus:border-[#F7931A]">
-              {payingProjects.map((p) => (
-                <option value={p.id} data-branch={p.prTemplate.branchName} data-title={p.prTemplate.title} data-body={p.prTemplate.body} data-repo={p.targetRepo} data-sats={p.rewardSats}>
-                  {p.title} ({p.rewardSats.toLocaleString()} Sats)
-                </option>
-              ))}
-            </select>
+          <div class="flex items-center justify-between text-xs font-mono text-slate-400">
+            <span class="uppercase font-bold text-white">1. External GitHub PR Template</span>
+            <button id="copy-pr-template-btn" class="text-[#F7931A] hover:underline">Copy Markdown</button>
           </div>
-
-          <div>
-            <label class="block text-xs font-mono uppercase text-slate-400 mb-1">GitHub Contributor Username</label>
-            <input 
-              type="text" 
-              id="pr-author-input" 
-              value="altradits" 
-              class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-white font-mono text-xs focus:outline-none focus:border-[#F7931A]"
-            />
-          </div>
-
-          <div>
-            <label class="block text-xs font-mono uppercase text-slate-400 mb-1">Feature Branch Name</label>
-            <input 
-              type="text" 
-              id="pr-branch-input" 
-              value="feat/l402-gin-middleware" 
-              class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-[#38BDF8] font-mono text-xs focus:outline-none focus:border-[#F7931A]"
-            />
-          </div>
-
-          <!-- Pre-flight PR Quality Checklist -->
-          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs">
-            <span class="text-xs font-mono uppercase text-[#F7931A] font-bold block mb-2">
-              Pre-Flight Quality Checklist
-            </span>
-            <div class="space-y-2 text-slate-300">
-              <label class="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" id="check-tests" class="accent-[#F7931A]" checked />
-                <span>Unit tests pass: <code>go test -race ./...</code></span>
-              </label>
-              <label class="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" id="check-gofmt" class="accent-[#F7931A]" checked />
-                <span>Zero lint issues: <code>gofmt -s -w . && golangci-lint run</code></span>
-              </label>
-              <label class="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" id="check-signoff" class="accent-[#F7931A]" checked />
-                <span>Git commit signed off with <code>-s</code></span>
-              </label>
-            </div>
-          </div>
+          <textarea 
+            id="pr-template-text"
+            rows="14" 
+            class="w-full p-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-slate-300 focus:outline-none focus:border-[#F7931A]"
+            readonly
+          >{prTemplateText}</textarea>
         </div>
 
-        <!-- Output: Generated Git Commands & PR Markdown -->
+        <!-- Grant Proposal Template -->
         <div class="space-y-4">
-          <div>
-            <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-1">
-              <span class="uppercase">1. Terminal Commands (Copy & Run)</span>
-              <button id="copy-git-commands-btn" class="text-[#38BDF8] hover:underline">Copy Commands</button>
-            </div>
-            <pre id="git-commands-output" class="p-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-slate-200 overflow-x-auto whitespace-pre">git checkout -b feat/l402-gin-middleware
-# Implement changes and tests
-go test -v ./...
-git add .
-git commit -s -m "feat(l402): implement plug-and-play HTTP 402 Lightning middleware"
-git push origin feat/l402-gin-middleware</pre>
+          <div class="flex items-center justify-between text-xs font-mono text-slate-400">
+            <span class="uppercase font-bold text-white">2. Brink / Spiral Fellowship Pitch Template</span>
+            <button id="copy-grant-pitch-btn" class="text-[#38BDF8] hover:underline">Copy Pitch</button>
           </div>
-
-          <div>
-            <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-1">
-              <span class="uppercase">2. GitHub PR Markdown Description</span>
-              <button id="copy-pr-body-btn" class="text-[#F7931A] hover:underline">Copy PR Body</button>
-            </div>
-            <textarea 
-              id="pr-body-output" 
-              rows="7" 
-              class="w-full p-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-slate-300 focus:outline-none focus:border-[#F7931A]"
-              readonly
-            ></textarea>
-          </div>
-
-          <div class="pt-2">
-            <a 
-              id="open-github-pr-link"
-              href="https://github.com/altradits/challenges"
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="w-full py-3 rounded-xl bg-[#F7931A] hover:bg-[#E27909] text-black font-bold font-mono text-xs text-center transition-all shadow-md flex items-center justify-center gap-2"
-            >
-              <span>🚀 Open GitHub PR in Target Repo</span>
-            </a>
-          </div>
+          <textarea 
+            id="grant-pitch-text"
+            rows="14" 
+            class="w-full p-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-slate-300 focus:outline-none focus:border-[#38BDF8]"
+            readonly
+          >{grantPitchText}</textarea>
         </div>
 
       </div>
@@ -431,82 +512,118 @@ git push origin feat/l402-gin-middleware</pre>
 
 <script>
   // HUD State in localStorage
-  const STORAGE_KEY = 'altradits_forge_state';
+  const ROADMAP_STORAGE_KEY = 'stanley_october_sprint_state';
 
-  interface ForgeState {
-    sats: number;
-    xp: number;
-    solvedChallenges: string[];
-    submittedPRs: string[];
+  interface SprintState {
+    checkedTasks: string[];
+    shippedTools: string[];
   }
 
-  const defaultState: ForgeState = {
-    sats: 0,
-    xp: 0,
-    solvedChallenges: [],
-    submittedPRs: []
+  const defaultState: SprintState = {
+    checkedTasks: [],
+    shippedTools: []
   };
 
-  function loadState(): ForgeState {
+  function loadState(): SprintState {
     try {
-      const data = localStorage.getItem(STORAGE_KEY);
+      const data = localStorage.getItem(ROADMAP_STORAGE_KEY);
       return data ? JSON.parse(data) : defaultState;
     } catch {
       return defaultState;
     }
   }
 
-  function saveState(state: ForgeState) {
+  function saveState(state: SprintState) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      localStorage.setItem(ROADMAP_STORAGE_KEY, JSON.stringify(state));
     } catch {}
   }
 
-  function updateHUD() {
+  function updateSprintHUD() {
     const state = loadState();
-    const satsEl = document.getElementById('hud-sats-text');
-    const levelEl = document.getElementById('hud-level-text');
-    const prCountEl = document.getElementById('hud-pr-count');
+    const tasksDoneEl = document.getElementById('hud-tasks-done');
+    const toolsDoneEl = document.getElementById('hud-tools-done');
     const progressBar = document.getElementById('hud-progress-bar');
     const progressPercent = document.getElementById('hud-progress-percent');
 
-    if (satsEl) satsEl.textContent = `${state.sats.toLocaleString()} Sats`;
-    
-    // Level calculation based on XP
-    let level = "Level 1";
-    let rank = "Go Initiate";
-    if (state.xp >= 300) { level = "Level 4"; rank = "Protocol Contributor"; }
-    else if (state.xp >= 150) { level = "Level 3"; rank = "Lightning Engineer"; }
-    else if (state.xp >= 50) { level = "Level 2"; rank = "Bitcoin Cryptographer"; }
+    const totalTasks = 28; // 4 weeks * 7 days
+    const totalTools = 5;
+    const tasksDone = state.checkedTasks.length;
+    const toolsDone = state.shippedTools.length;
 
-    if (levelEl) levelEl.textContent = `${level}`;
-    if (prCountEl) prCountEl.textContent = `${state.submittedPRs.length} / 4`;
+    if (tasksDoneEl) tasksDoneEl.textContent = `${tasksDone} / ${totalTasks}`;
+    if (toolsDoneEl) toolsDoneEl.textContent = `${toolsDone} / ${totalTools}`;
 
-    const totalTasks = 10;
-    const completedTasks = state.solvedChallenges.length + state.submittedPRs.length;
-    const pct = Math.min(100, Math.round((completedTasks / totalTasks) * 100));
+    const totalWeight = totalTasks + (totalTools * 4); // each tool counts for 4 tasks
+    const currentWeight = tasksDone + (toolsDone * 4);
+    const pct = Math.min(100, Math.round((currentWeight / totalWeight) * 100));
 
     if (progressBar) progressBar.style.width = `${pct}%`;
-    if (progressPercent) progressPercent.textContent = `${pct}% Completed (${rank})`;
+    if (progressPercent) progressPercent.textContent = `${pct}% Completed`;
 
-    // Highlight solved cards
-    state.solvedChallenges.forEach(id => {
-      const card = document.querySelector(`[data-challenge-id="${id}"]`);
-      if (card) {
-        card.classList.add('border-emerald-600/60', 'bg-emerald-950/20');
-        const btn = card.querySelector('.complete-challenge-btn');
-        if (btn) btn.textContent = 'Solved ✓';
+    // Sync checkboxes
+    document.querySelectorAll('.task-checkbox').forEach(cb => {
+      const input = cb as HTMLInputElement;
+      const taskId = input.getAttribute('data-task-id');
+      if (taskId) {
+        input.checked = state.checkedTasks.includes(taskId);
+        const row = document.querySelector(`.daily-task-row[data-task-id="${taskId}"]`);
+        if (row) {
+          if (input.checked) {
+            row.classList.add('bg-emerald-950/20', 'border-emerald-800/60');
+          } else {
+            row.classList.remove('bg-emerald-950/20', 'border-emerald-800/60');
+          }
+        }
       }
     });
 
-    state.submittedPRs.forEach(id => {
-      const btn = document.querySelector(`.claim-sats-btn[data-project-id="${id}"]`);
-      if (btn) {
-        btn.textContent = 'PR Submitted ✓';
+    // Sync tools buttons
+    document.querySelectorAll('.tool-shipped-btn').forEach(btn => {
+      const toolId = btn.getAttribute('data-tool-id');
+      if (toolId && state.shippedTools.includes(toolId)) {
+        btn.textContent = 'Shipped ✓';
         btn.classList.add('bg-emerald-600', 'text-black');
       }
     });
   }
+
+  // Handle task checkboxes
+  document.querySelectorAll('.task-checkbox').forEach(cb => {
+    cb.addEventListener('change', (e) => {
+      const input = e.target as HTMLInputElement;
+      const taskId = input.getAttribute('data-task-id');
+      if (!taskId) return;
+
+      const state = loadState();
+      if (input.checked) {
+        if (!state.checkedTasks.includes(taskId)) state.checkedTasks.push(taskId);
+      } else {
+        state.checkedTasks = state.checkedTasks.filter(id => id !== taskId);
+      }
+      saveState(state);
+      updateSprintHUD();
+    });
+  });
+
+  // Handle tool shipped button
+  document.querySelectorAll('.tool-shipped-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const toolId = btn.getAttribute('data-tool-id');
+      if (!toolId) return;
+
+      const state = loadState();
+      if (!state.shippedTools.includes(toolId)) {
+        state.shippedTools.push(toolId);
+      } else {
+        state.shippedTools = state.shippedTools.filter(id => id !== toolId);
+        btn.textContent = 'Mark Tool Shipped ✓';
+        btn.classList.remove('bg-emerald-600', 'text-black');
+      }
+      saveState(state);
+      updateSprintHUD();
+    });
+  });
 
   // Tabs logic
   const tabButtons = document.querySelectorAll('#forge-tabs .tab-btn');
@@ -535,126 +652,27 @@ git push origin feat/l402-gin-middleware</pre>
     });
   });
 
-  // Toggle challenge solution
-  document.querySelectorAll('.toggle-solution-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const targetId = btn.getAttribute('data-target');
-      if (targetId) {
-        const el = document.getElementById(targetId);
-        if (el) {
-          el.classList.toggle('hidden');
-          btn.textContent = el.classList.contains('hidden') 
-            ? 'Show Go Solution & Explanation ▼' 
-            : 'Hide Solution ▲';
-        }
-      }
-    });
-  });
-
-  // Mark challenge solved
-  document.querySelectorAll('.complete-challenge-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = btn.getAttribute('data-challenge-id');
-      const sats = parseInt(btn.getAttribute('data-sats') || '0', 10);
-      if (!id) return;
-
-      const state = loadState();
-      if (!state.solvedChallenges.includes(id)) {
-        state.solvedChallenges.push(id);
-        state.sats += sats;
-        state.xp += 50;
-        saveState(state);
-        updateHUD();
-      }
-    });
-  });
-
-  // Claim sats / PR submitted
-  document.querySelectorAll('.claim-sats-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = btn.getAttribute('data-project-id');
-      const sats = parseInt(btn.getAttribute('data-sats') || '0', 10);
-      if (!id) return;
-
-      const state = loadState();
-      if (!state.submittedPRs.includes(id)) {
-        state.submittedPRs.push(id);
-        state.sats += sats;
-        state.xp += 150;
-        saveState(state);
-        updateHUD();
-      }
-    });
-  });
-
-  // PR Studio integration
-  const projectSelect = document.getElementById('pr-project-select') as HTMLSelectElement;
-  const branchInput = document.getElementById('pr-branch-input') as HTMLInputElement;
-  const authorInput = document.getElementById('pr-author-input') as HTMLInputElement;
-  const gitOutput = document.getElementById('git-commands-output');
-  const bodyOutput = document.getElementById('pr-body-output') as HTMLTextAreaElement;
-  const openPrLink = document.getElementById('open-github-pr-link') as HTMLAnchorElement;
-
-  function updatePRWorkshop() {
-    if (!projectSelect) return;
-    const selectedOption = projectSelect.options[projectSelect.selectedIndex];
-    const branch = selectedOption.getAttribute('data-branch') || 'feat/bitcoin-task';
-    const title = selectedOption.getAttribute('data-title') || 'feat: update';
-    const body = selectedOption.getAttribute('data-body') || '';
-    const repo = selectedOption.getAttribute('data-repo') || 'altradits/challenges';
-
-    if (branchInput) branchInput.value = branch;
-    if (bodyOutput) bodyOutput.value = body;
-    if (openPrLink) openPrLink.href = `https://github.com/${repo}/compare`;
-
-    if (gitOutput) {
-      gitOutput.textContent = `git checkout -b ${branch}
-# Implement and test code
-go test -v ./...
-git add .
-git commit -s -m "${title}"
-git push origin ${branch}`;
-    }
-  }
-
-  if (projectSelect) {
-    projectSelect.addEventListener('change', updatePRWorkshop);
-    updatePRWorkshop();
-  }
-
-  // Launch PR button from project cards
-  document.querySelectorAll('.launch-pr-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = btn.getAttribute('data-project-id');
-      if (projectSelect && id) {
-        projectSelect.value = id;
-        updatePRWorkshop();
-      }
-      // Switch tab to PR studio
-      const prTabBtn = document.querySelector('[data-tab="pr-studio"]') as HTMLButtonElement;
-      if (prTabBtn) prTabBtn.click();
-    });
-  });
-
-  // Copy buttons
-  const copyGitBtn = document.getElementById('copy-git-commands-btn');
-  if (copyGitBtn && gitOutput) {
-    copyGitBtn.addEventListener('click', async () => {
-      await navigator.clipboard.writeText(gitOutput.textContent || '');
-      copyGitBtn.textContent = 'Copied! ✓';
-      setTimeout(() => copyGitBtn.textContent = 'Copy Commands', 2000);
+  // Copy template buttons
+  const copyPrBtn = document.getElementById('copy-pr-template-btn');
+  const prText = document.getElementById('pr-template-text') as HTMLTextAreaElement;
+  if (copyPrBtn && prText) {
+    copyPrBtn.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(prText.value);
+      copyPrBtn.textContent = 'Copied! ✓';
+      setTimeout(() => copyPrBtn.textContent = 'Copy Markdown', 2000);
     });
   }
 
-  const copyPrBodyBtn = document.getElementById('copy-pr-body-btn');
-  if (copyPrBodyBtn && bodyOutput) {
-    copyPrBodyBtn.addEventListener('click', async () => {
-      await navigator.clipboard.writeText(bodyOutput.value);
-      copyPrBodyBtn.textContent = 'Copied! ✓';
-      setTimeout(() => copyPrBodyBtn.textContent = 'Copy PR Body', 2000);
+  const copyGrantBtn = document.getElementById('copy-grant-pitch-btn');
+  const grantText = document.getElementById('grant-pitch-text') as HTMLTextAreaElement;
+  if (copyGrantBtn && grantText) {
+    copyGrantBtn.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(grantText.value);
+      copyGrantBtn.textContent = 'Copied! ✓';
+      setTimeout(() => copyGrantBtn.textContent = 'Copy Pitch', 2000);
     });
   }
 
-  // Initialize HUD on page load
-  updateHUD();
+  // Initialize
+  updateSprintHUD();
 </script>
