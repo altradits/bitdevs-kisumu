@@ -39,6 +39,50 @@ With this fellowship, I will commit full-time to contributing to Bitcoin Core / 
 
 GitHub: https://github.com/altradits
 Community: https://bitdevs-kisumu.vercel.app`;
+
+const bitcoinMagPitchText = `To: editor@bitcoinmagazine.com
+Subject: CONTRIBUTOR SUBMISSION: How Western Kenya is Syncing Bitcoin from Space Without Telcos
+
+Hi Editors,
+
+I am Stanley Thuita, a software engineer and Co-Founder of BitDevs Kisumu on the shores of Lake Victoria in Kenya.
+
+I would like to pitch a 1,500-word technical field report:
+"Syncing the Blockchain from Space: Running Blockstream Satellite Nodes in Western Kenya"
+
+In the Lake Victoria basin, recurring fiber cuts and expensive mobile data often isolate local nodes. In this piece, I share:
+- How our developer guild set up standard secondhand DStv dishes with RTL-SDR v4 dongles tuned to 82.4°E Azimuth.
+- Why zero-internet Bitcoin broadcasts are critical for African financial sovereignty.
+- Real performance metrics, block arrival latencies, and how offline nodes keep the network resilient.
+
+I have previously built a 158-lesson Go engineering curriculum (github.com/altradits) and lead our monthly Socratic Seminars.
+
+Looking forward to your thoughts!
+
+Best,
+Stanley Thuita
+GitHub: https://github.com/altradits`;
+
+const stackerNewsPostText = `Title: [Tutorial] Building a Zero-Allocation Bitcoin Address Generator in Pure Go
+
+Hey stackers! ⚡
+
+As part of our BitDevs Kisumu guild in Western Kenya, we've been auditing how Bitcoin cryptographic primitives are constructed from scratch in Go without blackbox dependencies.
+
+Here is a breakdown of how we derive SegWit Native (Bech32 bc1q) and Taproot (Bech32m bc1p) addresses in under 5 microseconds per address with zero heap allocations on the hot path.
+
+### 1. The Hashing Pipeline: Hash160
+[Insert code snippet of Hash160]
+
+### 2. 8-to-5 Bit Conversion for Bech32
+[Insert explanation of polymod checksum constant 0x2bc830a3 for BIP-350]
+
+### 3. Why In-Place Memory Matters in Emerging Markets
+[Explain memory constraints on low-end hardware]
+
+Full open-source code and benchmarks: https://github.com/altradits/bitkeys
+
+What edge cases have you encountered when handling Bech32m test vectors? Would love feedback!`;
 ---
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" id="forge-root">
@@ -252,9 +296,32 @@ Community: https://bitdevs-kisumu.vercel.app`;
       </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Category Filters -->
+    <div class="flex flex-wrap gap-2 py-3 border-y border-slate-800/80" id="radar-filter-btns">
+      <button data-filter="all" class="radar-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold transition-all bg-[#F7931A] text-black">
+        All Sources ({globalBountyPrograms.length})
+      </button>
+      <button data-filter="Writing for Sats" class="radar-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold transition-all bg-slate-900 border border-slate-800 text-slate-300 hover:text-white">
+        ✍️ Writing for Sats (4)
+      </button>
+      <button data-filter="Annual Fellowship,Milestone Grant" class="radar-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold transition-all bg-slate-900 border border-slate-800 text-slate-300 hover:text-white">
+        🏆 Fellowships & Grants (5)
+      </button>
+      <button data-filter="Per-Issue Bounty" class="radar-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold transition-all bg-slate-900 border border-slate-800 text-slate-300 hover:text-white">
+        💻 Code & PR Bounties (3)
+      </button>
+      <button data-filter="Micro-Tasks & Freelance" class="radar-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold transition-all bg-slate-900 border border-slate-800 text-slate-300 hover:text-white">
+        ⚡ Micro-Tasks & Gigs (2)
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="radar-cards-grid">
       {globalBountyPrograms.map((prog) => (
-        <div class="rounded-2xl border border-slate-800 bg-[#0c121e]/90 p-6 sm:p-7 flex flex-col justify-between hover:border-[#F7931A]/40 transition-all shadow-xl group">
+        <div 
+          class="bounty-card rounded-2xl border border-slate-800 bg-[#0c121e]/90 p-6 sm:p-7 flex flex-col justify-between hover:border-[#F7931A]/40 transition-all shadow-xl group"
+          data-type={prog.payoutType}
+          data-cat={prog.category}
+        >
           <div>
             <!-- Header -->
             <div class="flex items-start justify-between gap-4 mb-3">
@@ -504,6 +571,34 @@ Community: https://bitdevs-kisumu.vercel.app`;
           >{grantPitchText}</textarea>
         </div>
 
+        <!-- Bitcoin Magazine Pitch Template -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between text-xs font-mono text-slate-400">
+            <span class="uppercase font-bold text-white">3. Bitcoin Magazine Pitch ($150–$350 in BTC)</span>
+            <button id="copy-mag-pitch-btn" class="text-emerald-400 hover:underline">Copy Pitch</button>
+          </div>
+          <textarea 
+            id="mag-pitch-text"
+            rows="14" 
+            class="w-full p-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-slate-300 focus:outline-none focus:border-emerald-400"
+            readonly
+          >{bitcoinMagPitchText}</textarea>
+        </div>
+
+        <!-- Stacker News Post Template -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between text-xs font-mono text-slate-400">
+            <span class="uppercase font-bold text-white">4. Stacker News Post (Earn Instant Sats/Zaps)</span>
+            <button id="copy-stacker-post-btn" class="text-[#F7931A] hover:underline">Copy Post</button>
+          </div>
+          <textarea 
+            id="stacker-post-text"
+            rows="14" 
+            class="w-full p-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-slate-300 focus:outline-none focus:border-[#F7931A]"
+            readonly
+          >{stackerNewsPostText}</textarea>
+        </div>
+
       </div>
     </div>
   </div>
@@ -652,6 +747,33 @@ Community: https://bitdevs-kisumu.vercel.app`;
     });
   });
 
+  // Radar category filters
+  const radarFilterBtns = document.querySelectorAll('.radar-filter-btn');
+  const bountyCards = document.querySelectorAll('.bounty-card');
+
+  radarFilterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      radarFilterBtns.forEach(b => {
+        b.classList.remove('bg-[#F7931A]', 'text-black');
+        b.classList.add('bg-slate-900', 'border', 'border-slate-800', 'text-slate-300');
+      });
+      btn.classList.add('bg-[#F7931A]', 'text-black');
+      btn.classList.remove('bg-slate-900', 'border', 'border-slate-800', 'text-slate-300');
+
+      const filterVal = btn.getAttribute('data-filter') || 'all';
+      const allowedTypes = filterVal.split(',');
+
+      bountyCards.forEach(card => {
+        const cardType = card.getAttribute('data-type') || '';
+        if (filterVal === 'all' || allowedTypes.includes(cardType)) {
+          (card as HTMLElement).style.display = 'flex';
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+
   // Copy template buttons
   const copyPrBtn = document.getElementById('copy-pr-template-btn');
   const prText = document.getElementById('pr-template-text') as HTMLTextAreaElement;
@@ -670,6 +792,26 @@ Community: https://bitdevs-kisumu.vercel.app`;
       await navigator.clipboard.writeText(grantText.value);
       copyGrantBtn.textContent = 'Copied! ✓';
       setTimeout(() => copyGrantBtn.textContent = 'Copy Pitch', 2000);
+    });
+  }
+
+  const copyMagBtn = document.getElementById('copy-mag-pitch-btn');
+  const magText = document.getElementById('mag-pitch-text') as HTMLTextAreaElement;
+  if (copyMagBtn && magText) {
+    copyMagBtn.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(magText.value);
+      copyMagBtn.textContent = 'Copied! ✓';
+      setTimeout(() => copyMagBtn.textContent = 'Copy Pitch', 2000);
+    });
+  }
+
+  const copyStackerBtn = document.getElementById('copy-stacker-post-btn');
+  const stackerText = document.getElementById('stacker-post-text') as HTMLTextAreaElement;
+  if (copyStackerBtn && stackerText) {
+    copyStackerBtn.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(stackerText.value);
+      copyStackerBtn.textContent = 'Copied! ✓';
+      setTimeout(() => copyStackerBtn.textContent = 'Copy Post', 2000);
     });
   }
 
