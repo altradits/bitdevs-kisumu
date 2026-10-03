@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import SocraticSeminars from '../components/SocraticSeminars.astro';
+import DevDirectory from '../components/DevDirectory.astro';
+import SatelliteGuide from '../components/SatelliteGuide.astro';
+import EarnBoard from '../components/EarnBoard.astro';
+import LightningTipModal from '../components/LightningTipModal.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout>
+  <Navbar />
+  <main class="flex-grow">
+    <Hero />
+    <SocraticSeminars />
+    <DevDirectory />
+    <SatelliteGuide />
+    <EarnBoard />
+  </main>
+  <Footer />
+  <LightningTipModal />
+</Layout>

@@ -1,0 +1,105 @@
+---
+import { bounties, earningGuides } from '../data/bounties';
+---
+
+<section id="earn" class="py-16 md:py-24 border-b border-slate-800/60 bg-[#080c14]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <div>
+        <div class="inline-flex items-center gap-2 text-xs font-mono font-semibold text-[#F7931A] tracking-wider uppercase mb-2">
+          <span>// Economic Empowerment & Remote Income</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          Earn Bitcoin from Outside Kisumu
+        </h2>
+        <p class="mt-2 text-base text-slate-400 max-w-2xl">
+          Traditional international freelance platforms charge 20% fees and take days to clear into local banks. With Bitcoin and Lightning, Kisumu developers receive global payments instantly with zero chargeback risk.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-mono text-slate-400">Filtered for:</span>
+        <span class="px-2.5 py-1 rounded bg-[#F7931A]/10 border border-[#F7931A]/30 text-xs font-mono text-[#F7931A]">
+          Remote & African Devs Eligible
+        </span>
+      </div>
+    </div>
+
+    <!-- 4-Step Action Path -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+      {earningGuides.map((guide) => (
+        <div class="p-5 rounded-2xl border border-slate-800 bg-[#0c121e]/80 flex flex-col justify-between">
+          <div>
+            <div class="w-8 h-8 rounded-lg bg-[#F7931A]/10 border border-[#F7931A]/30 text-[#F7931A] font-mono font-bold text-sm flex items-center justify-center mb-3">
+              {guide.step}
+            </div>
+            <h3 class="font-bold text-sm sm:text-base text-white mb-2">
+              {guide.title}
+            </h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              {guide.summary}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Bounty Board Title -->
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="text-lg font-bold text-white flex items-center gap-2">
+        <span>Curated Grants & Sats Bounties</span>
+      </h3>
+      <span class="text-xs font-mono text-slate-400">Updated for 2026</span>
+    </div>
+
+    <!-- Bounties Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {bounties.map((item) => (
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/40 p-6 flex flex-col justify-between hover:border-slate-700 transition-all shadow-lg group">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                {item.source}
+              </span>
+              <span class={`text-[10px] font-mono px-2 py-0.5 rounded ${
+                item.difficulty === 'Beginner' ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' :
+                item.difficulty === 'Intermediate' ? 'bg-amber-950 text-amber-300 border border-amber-800' :
+                'bg-purple-950 text-purple-300 border border-purple-800'
+              }`}>
+                {item.difficulty}
+              </span>
+            </div>
+
+            <h4 class="font-bold text-base text-white group-hover:text-[#F7931A] transition-colors">
+              {item.title}
+            </h4>
+
+            <p class="mt-2 text-xs text-slate-400 leading-relaxed">
+              {item.description}
+            </p>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between gap-2">
+            <div>
+              <div class="text-[10px] font-mono uppercase text-slate-500">Reward / Funding</div>
+              <div class="text-xs sm:text-sm font-mono font-bold text-emerald-400">{item.reward}</div>
+            </div>
+
+            <a 
+              href={item.link} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-white transition-colors flex items-center gap-1"
+            >
+              <span>Explore</span>
+              <span>↗</span>
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

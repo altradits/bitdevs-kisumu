@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-btc-orange: #F7931A;
+    --color-btc-orange-dark: #E27909;
+    --color-btc-glow: rgba(247, 147, 26, 0.15);
+  }
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  background-color: #0b0f17;
+  color: #e2e8f0;
+}

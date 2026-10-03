@@ -1,0 +1,139 @@
+---
+import { meetups, socraticGuidelines } from '../data/meetups';
+
+const upcoming = meetups.find(m => m.status === 'upcoming') || meetups[0];
+---
+
+<section id="seminars" class="py-16 md:py-24 border-b border-slate-800/60 bg-[#070b12]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <div>
+        <div class="inline-flex items-center gap-2 text-xs font-mono font-semibold text-[#F7931A] tracking-wider uppercase mb-2">
+          <span>// Protocol R&D</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          Socratic Seminars
+        </h2>
+        <p class="mt-2 text-base text-slate-400 max-w-2xl">
+          Inspired by BitDevs NYC, Austin, and Amsterdam. We gather monthly to dissect Bitcoin protocol proposals, security advisories, Lightning advancements, and Layer-2 architectures.
+        </p>
+      </div>
+
+      <!-- Guidelines popover/summary badges -->
+      <div class="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-300">
+        <span class="px-2.5 py-1 rounded-md bg-slate-800/90 border border-slate-700/80">
+          ⚖️ Chatham House Rule
+        </span>
+        <span class="px-2.5 py-1 rounded-md bg-slate-800/90 border border-slate-700/80">
+          🚫 Zero Speculation
+        </span>
+        <span class="px-2.5 py-1 rounded-md bg-slate-800/90 border border-slate-700/80">
+          🔍 Pure Engineering
+        </span>
+      </div>
+    </div>
+
+    <!-- Main Upcoming Event Banner -->
+    <div class="rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900/90 via-[#0e1626]/70 to-slate-900/90 p-6 sm:p-8 shadow-2xl relative overflow-hidden mb-12">
+      <div class="absolute top-0 right-0 w-80 h-80 bg-[#F7931A]/5 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-800">
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-[#F7931A] text-black">
+              SEMINAR #{upcoming.number}
+            </span>
+            <span class="text-xs font-mono text-emerald-400 flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              RSVP OPEN
+            </span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-bold text-white">
+            BitDevs Kisumu Socratic Seminar #{upcoming.number}
+          </h3>
+          <div class="mt-2 flex flex-wrap items-center gap-y-2 gap-x-6 text-sm text-slate-300 font-mono">
+            <span class="flex items-center gap-1.5 text-slate-200">
+              📅 {upcoming.date}
+            </span>
+            <span class="flex items-center gap-1.5 text-slate-300">
+              ⏰ {upcoming.time}
+            </span>
+            <span class="flex items-center gap-1.5 text-slate-300">
+              📍 {upcoming.venueName}
+            </span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <a 
+            href={upcoming.rsvpLink} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="px-5 py-2.5 rounded-xl bg-[#F7931A] hover:bg-[#E27909] text-black font-bold text-sm transition-all shadow-md flex items-center gap-2"
+          >
+            <span>RSVP on Telegram</span>
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Agenda Topics -->
+      <div class="mt-6">
+        <h4 class="text-xs font-mono uppercase tracking-wider text-slate-400 mb-4">
+          Seminar Reading List & Technical Discussion Topics
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {upcoming.topics.map((topic) => (
+            <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 hover:border-slate-700 transition-colors flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-2">
+                  <span class="text-[11px] font-mono font-medium px-2 py-0.5 rounded bg-slate-800 text-[#F7931A] border border-slate-700/60">
+                    {topic.category}
+                  </span>
+                  <a 
+                    href={topic.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class="text-xs text-slate-400 hover:text-white flex items-center gap-1 font-mono"
+                  >
+                    <span>Read Ref</span>
+                    <span>↗</span>
+                  </a>
+                </div>
+                <h5 class="font-bold text-slate-100 text-sm sm:text-base">
+                  {topic.title}
+                </h5>
+                <p class="mt-2 text-xs text-slate-400 leading-relaxed">
+                  {topic.summary}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Socratic Seminar Rules Grid -->
+    <div class="mt-12">
+      <h3 class="text-sm font-mono uppercase tracking-wider text-slate-400 mb-6">
+        How BitDevs Kisumu Runs Socratic Seminars
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {socraticGuidelines.map((rule, idx) => (
+          <div class="p-5 rounded-xl bg-slate-900/30 border border-slate-800/60">
+            <div class="w-8 h-8 rounded-lg bg-slate-800 text-[#F7931A] font-mono font-bold text-sm flex items-center justify-center mb-3">
+              0{idx + 1}
+            </div>
+            <h4 class="font-bold text-white text-sm mb-1">{rule.title}</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">{rule.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>

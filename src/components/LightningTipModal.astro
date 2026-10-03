@@ -1,0 +1,168 @@
+---
+---
+
+<!-- Lightning Tip / Pay Modal Overlay -->
+<div 
+  id="lightning-modal" 
+  class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm transition-opacity"
+  aria-modal="true"
+  role="dialog"
+>
+  <div class="relative w-full max-w-md rounded-2xl border border-slate-800 bg-[#0e1626] p-6 shadow-2xl overflow-hidden">
+    
+    <!-- Top Close Button -->
+    <button 
+      id="close-modal-btn" 
+      class="absolute top-4 right-4 p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+      aria-label="Close modal"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+
+    <!-- Modal Header -->
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 rounded-xl bg-[#F7931A]/10 border border-[#F7931A]/30 flex items-center justify-center text-[#F7931A] font-bold text-lg">
+        ⚡
+      </div>
+      <div>
+        <h3 class="text-lg font-bold text-white leading-tight">Send Satoshis</h3>
+        <p id="modal-recipient-name" class="text-xs font-mono text-slate-400 mt-0.5">
+          BitDevs Kisumu
+        </p>
+      </div>
+    </div>
+
+    <!-- QR Code Container -->
+    <div class="my-6 flex flex-col items-center justify-center">
+      <div class="p-3 bg-white rounded-xl shadow-inner flex items-center justify-center">
+        <img 
+          id="modal-qr-img" 
+          src="" 
+          alt="Lightning QR Code" 
+          class="w-48 h-48 block"
+        />
+      </div>
+      <span class="text-[11px] font-mono text-slate-400 mt-2">
+        Scan with Blink, Strike, Phoenix, Alby, or CashApp
+      </span>
+    </div>
+
+    <!-- Lightning Address Display & Copy -->
+    <div class="space-y-3">
+      <div class="text-xs font-mono text-slate-400 uppercase tracking-wider">
+        Lightning Address (LNURL-Pay)
+      </div>
+
+      <div class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-900 border border-slate-800 font-mono text-xs">
+        <span id="modal-lightning-address" class="text-[#F7931A] truncate flex-1 font-semibold">
+          bitdevskisumu@getalby.com
+        </span>
+        <button 
+          id="copy-address-btn"
+          class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white text-xs font-mono transition-colors flex items-center gap-1"
+        >
+          <span id="copy-btn-text">Copy</span>
+        </button>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="pt-2 flex gap-3">
+        <a 
+          id="modal-open-wallet-btn"
+          href="#"
+          class="w-full py-2.5 rounded-xl bg-[#F7931A] hover:bg-[#E27909] text-black font-bold text-xs font-mono text-center transition-all shadow-md"
+        >
+          Open in Lightning Wallet
+        </a>
+      </div>
+    </div>
+
+    <!-- Fee note -->
+    <div class="mt-4 pt-3 border-t border-slate-800/80 text-center text-[10px] font-mono text-slate-500">
+      Zero foreign exchange fees • Settles in &lt;1 second into Kisumu
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('lightning-modal');
+  const closeBtn = document.getElementById('close-modal-btn');
+  const recipientText = document.getElementById('modal-recipient-name');
+  const addressText = document.getElementById('modal-lightning-address');
+  const qrImg = document.getElementById('modal-qr-img') as HTMLImageElement;
+  const copyBtn = document.getElementById('copy-address-btn');
+  const copyBtnText = document.getElementById('copy-btn-text');
+  const openWalletBtn = document.getElementById('modal-open-wallet-btn') as HTMLAnchorElement;
+
+  let currentAddress = "bitdevskisumu@getalby.com";
+
+  function openModal(name: string, address: string) {
+    currentAddress = address;
+    if (recipientText) recipientText.textContent = `Recipient: ${name}`;
+    if (addressText) addressText.textContent = address;
+    
+    // Lightning URI
+    const lightningUri = `lightning:${address}`;
+    if (openWalletBtn) openWalletBtn.href = lightningUri;
+
+    // Generate QR using standard public API
+    if (qrImg) {
+      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(lightningUri)}`;
+    }
+
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+  }
+
+  function closeModal() {
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  }
+
+  // Hook up tip buttons across the page
+  document.querySelectorAll('.open-tip-modal-btn, #open-treasury-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const target = e.currentTarget as HTMLElement;
+      const devName = target.getAttribute('data-dev-name') || "Kisumu Builder";
+      const devLightning = target.getAttribute('data-lightning') || "bitdevskisumu@getalby.com";
+      openModal(devName, devLightning);
+    });
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeModal);
+  }
+
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+      closeModal();
+    }
+  });
+
+  if (copyBtn && copyBtnText) {
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(currentAddress);
+        copyBtnText.textContent = "Copied! ✓";
+        setTimeout(() => {
+          if (copyBtnText) copyBtnText.textContent = "Copy";
+        }, 2000);
+      } catch (err) {
+        copyBtnText.textContent = "Error";
+      }
+    });
+  }
+</script>

@@ -1,0 +1,152 @@
+---
+---
+
+<section id="satellite" class="py-16 md:py-24 border-b border-slate-800/60 bg-[#070b12] relative overflow-hidden">
+  
+  <!-- Subtle satellite orbit aesthetic glow -->
+  <div class="absolute top-1/2 -right-40 w-96 h-96 bg-[#38BDF8]/5 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <div>
+        <div class="inline-flex items-center gap-2 text-xs font-mono font-semibold text-[#38BDF8] tracking-wider uppercase mb-2">
+          <span>// Zero-Internet Sovereign Rails</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          Offline & Blockstream Satellite Hub
+        </h2>
+        <p class="mt-2 text-base text-slate-400 max-w-2xl">
+          Western Kenya faces intermittent mobile data outages and fiber cuts. Learn how to keep your Bitcoin node 100% synchronized directly from space using low-cost hardware.
+        </p>
+      </div>
+
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-950/60 border border-blue-800/80 text-xs font-mono text-blue-300">
+        <span class="w-2 h-2 rounded-full bg-blue-400 animate-ping"></span>
+        <span>Geostationary Broadcast Active</span>
+      </div>
+    </div>
+
+    <!-- Dish Aiming Calculator for Kisumu -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+      
+      <!-- Calculator Box -->
+      <div class="lg:col-span-2 rounded-2xl border border-slate-800 bg-[#0c121e]/90 p-6 sm:p-8 shadow-xl">
+        <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
+          <div>
+            <h3 class="font-bold text-lg text-white flex items-center gap-2">
+              <span>🛰️ Kisumu Dish Alignment Assistant</span>
+            </h3>
+            <p class="text-xs text-slate-400 font-mono mt-0.5">
+              Target: ABS-2A / Telstar 11N Geostationary Footprint
+            </p>
+          </div>
+          <span class="text-xs font-mono px-2.5 py-1 rounded bg-slate-800 text-[#38BDF8] border border-slate-700">
+            Lat: -0.0917° | Lon: 34.7680°
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-center">
+            <span class="text-xs font-mono text-slate-400 block mb-1">Azimuth (Compass)</span>
+            <span class="text-2xl sm:text-3xl font-mono font-bold text-[#F7931A]">82.4° E</span>
+            <span class="text-[10px] text-slate-500 block mt-1">True East-Northeast</span>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-center">
+            <span class="text-xs font-mono text-slate-400 block mb-1">Elevation Angle</span>
+            <span class="text-2xl sm:text-3xl font-mono font-bold text-[#38BDF8]">54.8°</span>
+            <span class="text-[10px] text-slate-500 block mt-1">Tilt upwards from horizon</span>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-center">
+            <span class="text-xs font-mono text-slate-400 block mb-1">LNB Skew (Polarity)</span>
+            <span class="text-2xl sm:text-3xl font-mono font-bold text-emerald-400">-38.2°</span>
+            <span class="text-[10px] text-slate-500 block mt-1">Rotate feedhorn counter-cw</span>
+          </div>
+        </div>
+
+        <!-- Terminal instruction snippet -->
+        <div class="rounded-xl bg-slate-950 p-4 border border-slate-800 font-mono text-xs text-slate-300">
+          <div class="flex items-center justify-between text-slate-500 text-[11px] mb-2 pb-1 border-b border-slate-800">
+            <span>blockstream-satellite-receiver.sh</span>
+            <span>CLI Command</span>
+          </div>
+          <div class="text-[#38BDF8]"># Start demodulation on Kisumu frequency with RTL-SDR:</div>
+          <div class="mt-1 text-slate-200 overflow-x-auto whitespace-pre">bspace rx --freq 11475.5M --sym-rate 1.0M --lnb-type universal</div>
+        </div>
+
+      </div>
+
+      <!-- Quick BOM (Bill of Materials) -->
+      <div class="rounded-2xl border border-slate-800 bg-[#0c121e]/90 p-6 sm:p-8 flex flex-col justify-between">
+        <div>
+          <h3 class="font-bold text-base text-white mb-4 flex items-center gap-2">
+            <span>🛠️ Kisumu Hardware BOM</span>
+          </h3>
+          <ul class="space-y-3 text-xs text-slate-300">
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 font-mono">✓</span>
+              <div>
+                <strong class="text-white">65cm - 90cm Satellite Dish</strong>
+                <p class="text-slate-400 text-[11px]">Standard second-hand DStv / StarTimes dishes found in Kibuye market work great.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 font-mono">✓</span>
+              <div>
+                <strong class="text-white">Universal Ku-band LNB</strong>
+                <p class="text-slate-400 text-[11px]">Standard local linear LNB (LO 9750/10600 MHz).</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 font-mono">✓</span>
+              <div>
+                <strong class="text-white">RTL-SDR v4 USB Dongle</strong>
+                <p class="text-slate-400 text-[11px]">Software-Defined Radio USB stick to decode DVB-S2 frames.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 font-mono">✓</span>
+              <div>
+                <strong class="text-white">Raspberry Pi or Mini PC</strong>
+                <p class="text-slate-400 text-[11px]">Runs Bitcoin Core with satellite blocks fed via UDP socket.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-800 text-[11px] text-slate-400">
+          💡 Need help sourcing SDR dongles in Kisumu? Reach out in our BitDevs group.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Offline USSD Feature Phone Guide -->
+    <div class="rounded-2xl border border-slate-800 bg-gradient-to-r from-slate-900/80 to-[#101726]/80 p-6 sm:p-8">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <span class="text-[10px] font-mono uppercase tracking-wider text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
+            Zero Internet Feature Phones
+          </span>
+          <h3 class="text-xl font-bold text-white mt-2">
+            Machankura USSD Bitcoin in Kenya
+          </h3>
+          <p class="mt-1 text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
+            Even without a smartphone or data bundles, any Kenyan phone can send and receive Lightning sats over GSM USSD rails.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 font-mono text-sm sm:text-base font-bold text-[#F7931A]">
+            *483*8333#
+          </div>
+          <span class="text-xs font-mono text-slate-400">Dial on Safaricom / Airtel</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
